@@ -22,7 +22,7 @@ class Calculator {
         inputs = [String]()
     }
     
-    private func convert(incoming:String) -> Double {
+    private func convert(incoming : String) -> Double {
         return NSNumberFormatter().numberFromString(incoming)!.doubleValue
     }
     
@@ -31,23 +31,23 @@ class Calculator {
     }
     
     func add() -> Double {
-        return convert(inputs[0]) + convert(inputs[2])
+        return convert(inputs[0]) + convert(inputs[1])
     }
     
     func sub() -> Double {
-        return convert(inputs[0]) - convert(inputs[2])
+        return convert(inputs[0]) - convert(inputs[1])
     }
     
     func mul() -> Double {
-        return convert(inputs[0]) * convert(inputs[2])
+        return convert(inputs[0]) * convert(inputs[1])
     }
     
     func div() -> Double {
-        return convert(inputs[0]) / convert(inputs[2])
+        return convert(inputs[0]) / convert(inputs[1])
     }
     
     func mod() -> Double {
-        return convert(inputs[0]) % convert(inputs[2])
+        return convert(inputs[0]) % convert(inputs[1])
     }
     
     func avg() -> Double {
@@ -78,7 +78,8 @@ class Calculator {
     }
 }
 
-while true { //run loop
+var running = true
+while running { //run loop
     var gatheringInput = true
     var basicMathFlag = false
     var inputNum = 0
@@ -88,8 +89,10 @@ while true { //run loop
         gatheringInput = false
         let thisInput = input()
         switch thisInput {
+        case "quit", "q":
+            running = false
         case "help":
-            println("THIS IS THE HELP MENU")
+            println("Enter operands seperated by returns. + - * / % avg fact and count are legal operations. 'quit' will quit the program")
         case "count":
             println("\(calc.count())")
         case "avg":
@@ -99,6 +102,26 @@ while true { //run loop
                 println("cannot factorial more than one input")
             } else {
                 println("\(calc.fact())")
+            }
+        case"+", "add", "-", "sub", "*", "mul", "/", "div", "%", "mod":
+            if calc.count() > 1 {
+                println("too many operands")
+            } else {
+                calc.getInput(input())
+                switch thisInput {
+                case "+", "add":
+                    println("\(calc.add())")
+                case "-", "sub":
+                    println("\(calc.sub())")
+                case "*", "mul":
+                    println("\(calc.mul())")
+                case "/", "div":
+                    println("\(calc.div())")
+                case "%", "mod":
+                    println("\(calc.mod())")
+                default:
+                    println("UNKNOWN ERROR")
+                }
             }
         default:
             calc.getInput(thisInput)
